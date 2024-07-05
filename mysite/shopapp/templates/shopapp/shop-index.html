@@ -1,0 +1,15 @@
+{% extends 'shopapp/base.html' %}
+{% block body %}
+<div>
+    <ul>
+        {% for name, price in products %}
+            <li> {{ name }}({{ name|length }}) for $$${{ price }} </li>
+            {% if name|length_is:"7" %}
+            <span>Bingo!!!</span>
+            {% endif %}
+            {% empty %}
+            No items
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
