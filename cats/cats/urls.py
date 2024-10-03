@@ -21,6 +21,7 @@ import cats_show
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cats_show/', include('cats_show.urls')),
+    path('user/', include('authentication.urls')),
     # path('auth/', include('rest_framework.urls')),
 
 ]
