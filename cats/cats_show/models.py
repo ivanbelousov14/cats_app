@@ -1,6 +1,10 @@
 from django.db import models
 from authentication.models import User
 
+MALE = 'm'
+FEMALE = 'f'
+SEX = [(MALE, 'male'), (FEMALE, 'female')]
+
 
 class Breed(models.Model):
     name = models.CharField(max_length=100)
@@ -16,9 +20,10 @@ class Breed(models.Model):
 
 class Cat(models.Model):
     name = models.CharField(max_length=100)
-    color = models.CharField(max_length=100)
+    color = models.CharField(max_length=100, blank=True)
     age = models.IntegerField(null=False)
-    photo = models.ImageField(upload_to='photo/', null=True)
+    gender = models.CharField(max_length=1, choices=SEX, default=MALE, blank=True)
+    photo = models.ImageField(upload_to='photo/', default=None)
     description = models.TextField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
