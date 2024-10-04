@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from cats_show.models import Breed, Cat
 from cats_show.permissions import IsOwner
 from cats_show.serializers import BreedSerializer, CatSerializer
@@ -7,6 +7,8 @@ from rest_framework.viewsets import ModelViewSet
 class BreedViewSet(ModelViewSet):
     queryset = Breed.objects.all()
     serializer_class = BreedSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
 
 
 class CatViewSet(ModelViewSet):

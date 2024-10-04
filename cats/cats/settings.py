@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'cats',
     'cats_show',
     'authentication',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -137,7 +138,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'authentication.User'
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Cats show API',
+    'DESCRIPTION': 'testing project',
+    'VERSION': 1
 }
