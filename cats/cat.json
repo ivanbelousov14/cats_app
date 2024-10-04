@@ -1,0 +1,12 @@
+{
+  "name": "Barsik",
+  "age": 12,
+  "color": "brown",
+  "description": "cool cat",
+  "gender": "m",
+  "owner": "ivan",
+  "photo": null,
+  "rating": 4,
+  "breed": "Сфинкс"
+
+}
