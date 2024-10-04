@@ -1,8 +1,8 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from cats_show.models import Breed, Cat
+from cats_show.permissions import IsOwner
 from cats_show.serializers import BreedSerializer, CatSerializer
 from rest_framework.viewsets import ModelViewSet
-
 
 class BreedViewSet(ModelViewSet):
     queryset = Breed.objects.all()
@@ -10,8 +10,25 @@ class BreedViewSet(ModelViewSet):
 
 
 class CatViewSet(ModelViewSet):
-    queryset = Cat.objects.all()
+
     serializer_class = CatSerializer
-    permission_classes = [IsAuthenticated]
+    queryset = Cat.objects.all()
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self, *args, **kwargs):
+        request = self.request
+        breed = request.GET.get('breed')
+        if breed:
+            return Cat.objects.filter(breed__name=breed)
+        return super().get_queryset(*args, **kwargs)
+
+    def get_permissions(self):
+        permissions_classes = (AllowAny,)
+        if self.action in ['update', 'partial_update', 'destroy']:
+            permissions_classes = [IsOwner]
+        return tuple(permission() for permission in permissions_classes)
+
+
+
 
 

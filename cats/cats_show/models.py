@@ -1,9 +1,17 @@
 from django.db import models
+from rest_framework.exceptions import ValidationError
+
 from authentication.models import User
 
 MALE = 'm'
 FEMALE = 'f'
 SEX = [(MALE, 'male'), (FEMALE, 'female')]
+
+
+def validate_range(val):
+    if val < 1 or val > 5:
+        raise ValidationError
+
 
 
 class Breed(models.Model):
@@ -25,8 +33,9 @@ class Cat(models.Model):
     gender = models.CharField(max_length=1, choices=SEX, default=MALE, blank=True)
     photo = models.ImageField(upload_to='photo/', default=None)
     description = models.TextField(max_length=1000)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
+    rating = models.FloatField(validators=[validate_range])
 
     class Meta:
         verbose_name = 'Котик'
